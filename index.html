@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surge Publisher</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="themes.css">
+</head>
+<body>
+<div id="overlay" hidden><div id="ovTitle">Drop files or a folder</div><small id="ovSub"></small></div>
+
+<header>
+  <div class="brand"><img class="appicon" src="icon.png" alt="" width="26" height="26">Surge Publisher</div>
+  <div class="hright">
+    <span class="spin" id="spin" hidden title="Working…"></span>
+    <div class="status">
+      <span><span id="dotCli" class="dot"></span><span id="txtCli">Checking Surge…</span></span>
+    </div>
+    <button class="acct-chip keep" id="btnAcct" title="Switch Surge account"></button>
+    <button class="hbtn keep" id="btnPause" title="Pause or resume automatic publishing">Auto-publish: on</button>
+    <button class="hbtn keep" id="btnPalette" title="Search sites and run commands">Search <kbd>Ctrl K</kbd></button>
+  </div>
+</header>
+
+<main>
+  <aside>
+    <div class="side-top">
+      <button class="primary" id="add">+ Add site</button>
+      <button id="pubAll" title="Publish every saved site, one after another (Ctrl+Shift+P)">Publish all</button>
+    </div>
+    <div class="side-acct" id="acctBar" hidden><div class="seg sm" id="acctSeg">
+      <button class="seg-btn keep on" data-k="acct" id="segAcct"></button><button class="seg-btn keep" data-k="all" id="segAll">All</button>
+    </div></div>
+    <div class="side-search"><input id="search" type="search" placeholder="Search sites…" autocomplete="off"><button class="keep ibtn" id="addCat" title="New category" aria-label="New category"></button></div>
+    <div id="sites"></div>
+    <div id="setup" class="banner" hidden>
+      Surge isn’t installed yet (needs Node.js).
+      <div class="actions"><button class="primary" id="installBtn">Install Surge</button></div>
+    </div>
+    <div class="side-foot">
+      <button class="foot-btn keep" id="btnSettings" title="Settings (Ctrl ,)"><span><span class="gear">⚙</span>Settings</span><kbd>Ctrl ,</kbd></button>
+    </div>
+  </aside>
+
+  <section class="content">
+    <div class="upper">
+      <div class="seg" id="topSeg">
+        <button class="seg-btn keep on" data-k="site" id="tabSite">Site</button>
+        <button class="seg-btn keep" data-k="cmds" id="tabCmds">Surge commands</button>
+      </div>
+      <div class="card" id="sitePanel">
+        <div class="pgwrap collapsed" id="pgWrap"><div class="pgin">
+          <div class="pg" id="pg">
+            <div class="pg-top"><span id="pgLabel"></span><span id="pgPct">0%</span></div>
+            <div class="pg-bar"><div id="pgFill"></div></div>
+            <div class="pg-meta"><span id="pgSpeed"></span><span id="pgSize"></span><span id="pgEta"></span><span id="pgTime"></span></div>
+          </div>
+        </div></div>
+        <div id="editor"></div>
+      </div>
+      <div class="card" id="cmds" hidden></div>
+    </div>
+
+    <div class="term">
+      <div class="grip" id="grip" title="Drag to resize · double-click to reset"></div>
+      <div class="term-head">
+        <span>Output</span>
+        <span><button id="stop" class="keep">Stop</button> <button id="clear" class="keep">Clear</button> <button id="expand" class="keep" title="Expand / collapse (Esc)">⤢ Expand</button></span>
+      </div>
+      <pre id="log"></pre>
+      <div class="term-in"><input id="stdin" placeholder="Answer a Surge prompt here and press Enter…"><button id="sendIn" class="keep">Send</button></div>
+    </div>
+  </section>
+</main>
+
+<div id="modalRoot"></div>
+<div id="palette" hidden><div class="pal"><input id="palInput" placeholder="Type to search sites and commands…" autocomplete="off"><div class="list" id="palList"></div></div></div>
+<div id="toasts"></div>
+<div id="tip" role="tooltip"></div>
+
+<script src="qr.js"></script>
+<script src="core.js"></script>
+<script src="accounts.js"></script>
+<script src="categories.js"></script>
+<script src="list.js"></script>
+<script src="editor.js"></script>
+<script src="publish.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "name": "surge-gui",
+  "version": "1.0.0",
+  "description": "A simple desktop app for publishing static sites with Surge",
+  "license": "MIT",
+  "author": "farizmohd70",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "local.surge.gui",
+    "productName": "Surge Publisher",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "themes.css",
+      "core.js",
+      "list.js",
+      "editor.js",
+      "publish.js",
+      "ui.js",
+      "qr.js",
+      "files.js",
+      "accounts.js",
+      "categories.js",
+      "zip.js",
+      "icon.png"
+    ]
+  },
+  "homepage": "https://github.com/farizmohd70/surge-publisher#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farizmohd70/surge-publisher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/farizmohd70/surge-publisher/issues"
+  },
+  "keywords": [
+    "surge",
+    "surge.sh",
+    "electron",
+    "static-site",
+    "publisher",
+    "deploy",
+    "desktop-app"
+  ],
+  "allowScripts": {
+    "electron@31.7.7": true
+  }
+}
