@@ -349,7 +349,7 @@ function renderEditor() {
   const banner = s.archived ? h('div', { class: 'arch-banner' }, icon('archive'),
     h('span', {}, 'Archived: skipped by Publish all, auto-publish and schedules.'),
     h('button', { class: 'keep', onclick: () => toggleArchive(s) }, 'Restore')) : null;
-  box.append(head, banner, acts, seg, host);
+  box.append(head, ...(banner ? [banner] : []), acts, seg, host);
   makeSeg(seg, (k) => { editorTab = k; draw(true); });
   draw(changed);
   if (changed) { head.classList.add('enter'); acts.classList.add('enter'); }
