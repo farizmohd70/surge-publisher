@@ -17,6 +17,8 @@ const hiddenStart = process.argv.includes('--hidden');
 const SETTINGS_FILE = path.join(app.getPath('userData'), 'settings.json');
 const SECRETS_FILE = path.join(app.getPath('userData'), 'secrets.json');
 const ICON = path.join(__dirname, 'icon.png');
+const APP_ID = 'local.surge.gui';   // must match "appId" in package.json
+if (process.platform === 'win32') app.setAppUserModelId(APP_ID);   // groups the taskbar button and lets Windows pin this app, not Electron
 
 let settings = { tray: true, startup: false, globalShortcut: false };
 try { settings = { ...settings, ...JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8')) }; } catch {}
@@ -88,6 +90,12 @@ function createWindow() {
     },
   });
   win.setMenuBarVisibility(false);
+  if (process.platform === 'win32' && app.isPackaged) {
+    // “Pin to taskbar” stores the window's relaunch command and icon. A portable build runs from a temporary
+    // folder, so point both at the real .exe the user started.
+    const exe = process.env.PORTABLE_EXECUTABLE_FILE || process.execPath;
+    try { win.setAppDetails({ appId: APP_ID, appIconPath: exe, appIconIndex: 0, relaunchCommand: `"${exe}"`, relaunchDisplayName: 'Surge Publisher' }); } catch {}
+  }
   win.loadFile('index.html');
   win.on('close', (e) => {
     if (!quitting && settings.tray) {
