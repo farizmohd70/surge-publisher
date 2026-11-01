@@ -90,11 +90,15 @@ function createWindow() {
     },
   });
   win.setMenuBarVisibility(false);
-  if (process.platform === 'win32' && app.isPackaged) {
-    // “Pin to taskbar” stores the window's relaunch command and icon. A portable build runs from a temporary
-    // folder, so point both at the real .exe the user started.
+  if (process.platform === 'win32') {
+    // “Pin to taskbar” stores this window's relaunch command and icon, so give it ones that start THIS app.
+    // Built app: the real .exe you started (a portable build runs from a temporary folder, so not process.execPath).
+    // npm start: electron.exe plus this project's folder, with the .ico from the repo.
     const exe = process.env.PORTABLE_EXECUTABLE_FILE || process.execPath;
-    try { win.setAppDetails({ appId: APP_ID, appIconPath: exe, appIconIndex: 0, relaunchCommand: `"${exe}"`, relaunchDisplayName: 'Surge Publisher' }); } catch {}
+    const how = app.isPackaged
+      ? { appIconPath: exe, relaunchCommand: `"${exe}"` }
+      : { appIconPath: path.join(__dirname, 'build', 'icon.ico'), relaunchCommand: `"${process.execPath}" "${app.getAppPath()}"` };
+    try { win.setAppDetails({ appId: APP_ID, appIconIndex: 0, relaunchDisplayName: 'Surge Publisher', ...how }); } catch {}
   }
   win.loadFile('index.html');
   win.on('close', (e) => {
